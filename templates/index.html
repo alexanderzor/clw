@@ -2,20 +2,19 @@
 {% load staticfiles %}
 {% block main_content %}
   <div class="banner"></div>
+<section class="baner">
+                <img src="{% static 'images/bnr.jpg' %}" alt="Baner">
+</section>
 
 	<section class="s-1">
 		<div class="wrp-1000">
 			<div class="header-s-1 custom-marg">Приветствую тебя, дорогой Свидетель</div>
-			<div class="header-second">КОГДА ТЫ ПРОСМАТРИВАЕШЬ УРОК, ТЕБЕ НУЖНО МОЛИТЬСЯ И РАЗМЫШЛЯТЬ НАД НИМ. И КОГДА ТЫ БУДЕШЬ ПРЕБЫВАТЬ В ЭТОМ МОЛИТВЕННОМ СОСТОЯНИИ, ТО ПРОСЛУШИВАЙ УРОК 2-3 РАЗА
-</div>
+<!--			<div class="header-second">КОГДА ТЫ ПРОСМАТРИВАЕШЬ УРОК, ТЕБЕ НУЖНО МОЛИТЬСЯ И РАЗМЫШЛЯТЬ НАД НИМ. И КОГДА ТЫ БУДЕШЬ ПРЕБЫВАТЬ В ЭТОМ МОЛИТВЕННОМ СОСТОЯНИИ, ТО ПРОСЛУШИВАЙ УРОК 2-3 РАЗА
+</div>-->
 			<div class="block-video">
 				<div class="video-wrp">
 {% if video.url  %}
 <iframe width="610" height="410"  src="{{video.url}}" frameborder="0" allowfullscreen></iframe>
-
-{% else  %}
-<video  controls width="600" height="340" src="{{ video.video.url }}"></video>
-
 {% endif  %}
 
 <a href="{% url 'archive' %}">
@@ -28,7 +27,7 @@
                         {% for task in tasks %}
  <a href="http://clw.com.ua{% url 'index' task.title %}">
                             <div class="post-as">
-                                                        <p class="title-as">{{ task.verbose_title }}</p>
+                                                        <p class="title-as">{{ task.author }} - урок №{{task.number}}</p>
                                                         <p class="date-as">{{ task.date }}</p>
                                                 </div>
                             </a>
@@ -52,27 +51,14 @@
 	</section>
 	<section class="test">
 		<div class="wrp-1000">
-			<div class="header-test">Текстовое задание №{{video.number}}</div>
+			<div class="header-test">Текстовое задание №{{video.text.number}}</div>
 			<div class="muntyan-wrp">
-				<img class="muntyan" src="{{ video.image.url }}" />
+				<img class="muntyan" src="{{ video.text.image.url }}" />
 				<div class="text-test">
-					<div class="header-tt">
-						Сегодня я даю тебе задание, которое ты должен выполнять постоянно:
-					</div>
-                    {% if video.description %}
-                    {{ video.description|safe}}
+                    {% if video.text.description %}
+                    {{ video.text.description|safe}}
                     {% endif %}
-					<!--<ul>
-						<li>
-							1. С самого утра приветствуй Святого Духа, осознавая, что Он - <span>Творец неба и земли, что Он - твоя опора, Он твой фундамент, Он – твой друг.</span>
-						</li>
-						<li>
-							2. Каждый день произноси слова: <span>«Сделал меня Господь главою, а не хвостом!»</span>. Постарайся осознать, что это есть истина! Примени это конкретно ко всем сферам своей жизни. Исповедуй эти слова в течение всего дня!
-						</li>
-						<li>
-							3. Визуализируй себя как нового человека, как победителя!
-						</li>
-					</ul>-->
+
 				</div>
 			</div>	
 		</div>

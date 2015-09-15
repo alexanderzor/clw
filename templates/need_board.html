@@ -16,7 +16,11 @@
 					<ul class="notes">
                         {% for need in needs %}
 						<li class="vidli">
-							<p class="from-n">{{need.author.email}}</p>
+							{% if need.author.first_name %}
+							<p class="from-n">{{need.author.first_name}} {{need.author.last_name}}</p>
+							{% else %}
+							<p class="from-n">{{need.name}}</p>
+							{% endif %}
 							<p class="date-n">{{need.date}}</p>
 							<div class="text-n scroll-pane">
 							<p>{{need.description}}</p>

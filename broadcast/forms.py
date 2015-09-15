@@ -32,3 +32,7 @@ CHOICES = (('ask', 'Вопрос по урокам'),
 class FeedBackForm(forms.Form):
     text = forms.CharField(widget=forms.Textarea)
     subject = forms.ChoiceField(widget=forms.RadioSelect, choices=CHOICES, required=True)
+
+
+class SearchForm(forms.Form):
+    keyword = forms.CharField(max_length=20, widget=TextInput(attrs={'placeholder': u'Поиск'}), required=True)

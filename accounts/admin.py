@@ -10,10 +10,18 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
 import hashlib, random
-from accounts.models import CustomUser, Need, Thank
+from accounts.models import CustomUser, Need, Thank, Ask, Witness
 from clw.settings import SITE_DOMAIN_URL as site_url
 from django.contrib.auth.forms import AdminPasswordChangeForm
+from import_export.admin import ImportExportActionModelAdmin
+from resources import ExportResource
+from import_export.admin import ImportExportMixin, ExportActionModelAdmin
 
+
+
+class ExportAdmin(ImportExportMixin):
+    resource_class = ExportResource
+    pass
 
 class CustomUserChangeForm(UserChangeForm):
 
@@ -53,7 +61,7 @@ def make_active(ThankAdmin, request, queryset):
     queryset.update(active=True)
 
 
-class CustomUserAdmin(UserAdmin):
+class CustomUserAdmin(ExportAdmin, UserAdmin):
     form = CustomUserChangeForm
     change_user_password_template = None
     list_display = ('username', 'date_joined',
@@ -78,7 +86,7 @@ class CustomUserAdmin(UserAdmin):
 
 
 class NeedAdmin(admin.ModelAdmin):
-    list_display = ('author', 'active', )
+    list_display = ('author', 'active', 'name', )
     actions = [make_published]
 
     class Meta:
@@ -94,14 +102,26 @@ class ThankAdmin(admin.ModelAdmin):
         model = Thank
 admin.site.register(Thank, ThankAdmin)
 
+class WitnessAdmin(admin.ModelAdmin):
+    list_display = ('author', 'date', )
+
+    class Meta:
+        model = Witness
+admin.site.register(Witness, WitnessAdmin)
 
 
+class AskAdmin(admin.ModelAdmin):
+    list_display = ('author', 'date', )
 
+    class Meta:
+        model = Ask
+admin.site.register(Ask, AskAdmin)
 
 
 
 admin.site.unregister(User)
 admin.site.register(CustomUser, CustomUserAdmin)
+
 
 
 

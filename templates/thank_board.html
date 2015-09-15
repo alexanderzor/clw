@@ -19,8 +19,15 @@
 							{{thank.description}}
 						</p>
 						<p class="from-thx">
-							<span>{{thank.author.email}}, </span>
-							{{thank.date}}
+						{% if thank.author.first_name %}
+                                                <span>{{thank.author.first_name}} {{thank.author.last_name}} , </span>
+        
+                                                        {% else %}
+                                                <span>{{thank.name}}, </span>
+
+                                                        {% endif %}
+
+					{{thank.date}}
 						</p>
 					</li>
 				</a>

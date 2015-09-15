@@ -1,14 +1,14 @@
 # -*- coding: utf-8
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
-from forms import UploadFileForm, FeedBackForm
-from models import Task
+from forms import UploadFileForm, FeedBackForm, SearchForm
+from models import Task, Text
 from django.core.mail import EmailMultiAlternatives
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from models import Consultant
-from accounts.models import Need, Thank
+from accounts.models import Need, Thank, Ask, Witness
 
 @login_required(login_url='register_view')
 def forbidden(request):
@@ -22,12 +22,15 @@ def forbidden(request):
 @login_required(login_url='register_view')
 def index(request, key=''):
     if not key:
-        return HttpResponseRedirect(reverse('index', kwargs={'key': 'Lesson1'}))
+        video = Task.objects.first()
+        #return HttpResponseRedirect(reverse('index', kwargs={'key': 'Lesson1'}))
+    else:
+        video = Task.objects.filter(title=key).first()
     if request.method == 'POST':
         form = FeedBackForm(request.POST)
     else:
         form = FeedBackForm()
-    video = Task.objects.filter(title=key).first()
+    #video = Task.objects.filter(title=key).first()
     tasks = Task.objects.filter(private=False).all()
     context = {'tasks': tasks, 'form': form, 'video': video}
     return render(request, 'index.html', context)
@@ -46,6 +49,12 @@ def feedback(request):
             elif s == 'thanks':
                 thank = Thank.objects.create(author=request.user, description=cd['text'])
                 thank.save()
+            elif s == 'ask':
+                ask = Ask.objects.create(author=request.user, description=cd['text'])
+                ask.save()
+            elif s == 'witness':
+                witness = Witness.objects.create(author=request.user, description=cd['text'])
+                witness.save()
             subject, from_email, to = cd['subject'], 'cwitnesses@gmail.com', 'Len4ikoy@gmail.com'
             text_content = request.user.email + ':\n' + cd['text']
             msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
@@ -70,8 +79,6 @@ def uploader(request):
 
 @login_required(login_url='register_view')
 def private(request, key=''):
-    if not key:
-        return HttpResponseRedirect(reverse('private', kwargs={'key': 'Private1'}))
     if request.method == 'POST':
         form = FeedBackForm(request.POST)
     else:
@@ -108,3 +115,28 @@ def vote(request, key):
     request.user.vote(need)
    # need.voters.add(request.user)
     return HttpResponseRedirect(reverse('need_board'))
+
+
+@login_required(login_url='register_view')
+def archive(request, key='all'):
+    tasks = []
+    texts = []
+    if key == 'all':
+        tasks = Task.objects.all()
+        texts = Text.objects.all()
+    elif key == 'video_lessons':
+        tasks = Task.objects.filter(private=False).all()
+    elif key == 'video_private':
+        tasks = Task.objects.filter(private=True).all()
+    elif key == 'text_lessons':
+        texts = Text.objects.all()
+    if request.method == 'POST':
+        search_form = SearchForm(request.POST)
+        if search_form.is_valid():
+            cd = search_form.cleaned_data
+            tasks = Task.objects.filter(keyword__icontains=cd['keyword'])
+    else:
+        search_form = SearchForm()
+    context = {'tasks': tasks, 'texts': texts, 'search_form': search_form}
+    return render(request, 'archive.html', context)
+

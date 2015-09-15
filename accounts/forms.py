@@ -6,7 +6,7 @@ from collections import OrderedDict
 
 
 class EmailForm(forms.Form):
-    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': u'E-mail'}), required=True)
+    email = forms.CharField(widget=forms.TextInput(attrs={'placeholder': u'E-mail'}), required=True)
 
 
 class LoginForm(EmailForm):
@@ -30,7 +30,7 @@ class RegistrationForm(forms.Form):
     last_name = forms.CharField(max_length=20, widget=TextInput(attrs={'placeholder': u'Фамилия'}), required=True)
     middle_name = forms.CharField(max_length=20, widget=TextInput(attrs={'placeholder': u'Отчество'}), required=True)
     city = forms.CharField(max_length=20, widget=TextInput(attrs={'placeholder': u'Город'}), required=True)
-    email = forms.EmailField(widget=TextInput(attrs={'placeholder': u'E-mail'}), required=True)
+    email = forms.EmailField(max_length=40, widget=TextInput(attrs={'placeholder': u'E-mail'}), required=True)
     phone = forms.CharField(max_length=20, widget=TextInput(attrs={'placeholder': u'Телефон'}), required=True)
 
     class Meta:

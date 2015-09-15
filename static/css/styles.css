@@ -320,13 +320,13 @@ nav.nav-h ul a li:hover {
 
 .banner {
 
-	height: 538px;
-
+        height: 483px;
+	
 	background-image: url('../images/header/back.jpg');
 
 	background-repeat: no-repeat;
 
-	background-size: cover;
+	/*background-size: contain;*/
 
 	background-position: center;
 
@@ -3835,81 +3835,17 @@ a.to-cabinet {
         box-shadow: none;
 
     }
+section.baner{
 
+	max-width: 100%;
 
+  margin: 10px auto;
 
+}
 
+section.baner img{
+  width: 100%;
+  height: 230px;
+  display: block;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}

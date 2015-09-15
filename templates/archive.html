@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block main_content %}
+	<div class="wrp-1000-back">
+		<section class="s-1">
+			<div class="wrp-1000">
+				<div class="header-s-1-2">Архив</div>
+				<nav class="video-navigation">
+					<ul>
+						<a href="{% url 'archive' 'video_lessons' %}"> <li>Видео уроки</li></a>
+						<a href="{% url 'archive' 'video_private' %}"><li>Приватные эфиры</li></a>
+						<a href="{% url 'archive' 'text_lessons' %}"><li>Текстовые уроки</li></a>
+					</ul>
+				</nav>
+				<form class="search" action="" method="post">
+                    {% csrf_token %}
+					<div class="search-button">
+						<!--<input name="search" type="text">-->
+                        {{search_form.keyword}}
+						<button type="submit"></button>
+					</div>
+				</form>
+				<div class="block-video">
+					<div class="video-wrp">
+						<video controls src="1.mp4"></video>
+                        <video controls src="1.mp4"></video>
+                        <video controls src="1.mp4"></video>
+					</div>
+					<aside class="video-nav">
+						<div class="header-as">Видеоуроки</div>
+						<div class="body-as">
+							<a href="">
+                                <div class="post-as">
+                                    <p class="title-as">Приватный Эфир</p>
+                                    <p class="date-as">23.04.2015</p>
+                                </div>
+							</a>
+						</div>
+					</aside>
+				</div>
+				<div class="calendar">
+					<div class="icon-cal"></div>
+					<ul class="ul-days">
+						<li>
+							<p class="date-cal">12 мая 2015г.</p>
+							<p class="dow-cal">вторник</p>
+						</li>
+						<li>
+							<p class="date-cal">11 мая 2015г.</p>
+							<p class="dow-cal">понедельник</p>
+						</li>
+						<li>
+							<p class="date-cal">10 мая 2015г.</p>
+							<p class="dow-cal">воскресенье</p>
+						</li>
+						<li>
+							<p class="date-cal">9 мая 2015г.</p>
+							<p class="dow-cal">суббота</p>
+						</li>
+						<li>
+							<p class="date-cal">8 мая 2015г.</p>
+							<p class="dow-cal">пятница</p>
+						</li>
+						<li>
+							<p class="date-cal">7 мая 2015г.</p>
+							<p class="dow-cal">четверг</p>
+						</li>
+					</ul>
+				</div>
+				<ul class="video-lesson">
+                    {% for task in tasks %}
+                    <li class="vidli">
+						<div class="film-vid"> <!-- left -->
+							<div class="pop-up">
+								<div class="play-but"></div>
+							</div>
+							<!--<img src="images/html5/film_pic.jpg">-->
+                            {% if task.private %}
+                            <div class="img fp-2"></div>
+                            {% else %}
+							<div class="img fp-1"></div>
+                            {% endif %}
+						</div>
+						<div class="video-info"> <!-- right -->
+							<p class="header-vid-1">Видео урок №{{task.number}}</p>
+							<p class="header-vid-2">{{task.author}}</p>
+							<p class="date-vid">{{task.date}}</p>
+                            <p class="date-vid">{{task.keyword}}</p>
+						</div>
+					</li>
+                    {% endfor %}
+                    {% for text in texts %}
+                    <li class="vidli">
+						<div class="film-vid"> <!-- left -->
+							<div class="pop-up">
+								<div class="read-but"></div>
+							</div>
+							<div class="img fp-3"></div>
+						</div>
+						<div class="video-info"> <!-- right -->
+							<p class="header-vid-1">Текстовый урок №{{text.number}}</p>
+							<p class="header-vid-2">{{text.task.author}}</p>
+							<p class="date-vid">{{text.task.date}}</p>
+						</div>
+					</li>
+
+                    {% endfor %}
+
+
+					<div class="pagination-2">
+						<ul class="pages">
+							<li class="page-ar-2"><<</li>
+							<li class="page-numb-2 active-page">1</li>
+							<li class="page-numb-2">2</li>
+							<li class="page-numb-2">3</li>
+							<li class="page-ar-2">>></li>
+						</ul>
+					</div>
+				</ul>
+				<div class="append-20px"></div>
+			</div>
+		</section>
+	</div> <!-- end wrp-1000 back -->
+
+
+	<div class="pop-up-videos"> <!-- THE POP UP -->
+		<div class="wrp-video">
+			<p class="title-video">{{title}}</p>
+			<div class="link-videos">
+				<iframe class="link-vid" width="854" height="530" src="https://www.youtube.com/embed/WgIlg5GUw0g" frameborder="0" allowfullscreen></iframe>
+				<iframe class="link-vid" width="854" height="530" src="https://www.youtube.com/embed/CAA1tEqkEN8" frameborder="0" allowfullscreen></iframe>
+				<iframe class="link-vid" width="854" height="530" src="https://www.youtube.com/embed/MNIRo8FrAgM" frameborder="0" allowfullscreen></iframe>
+			</div>
+			<div class="video-information">
+				<p class="title-p-vids">{{title}}</p>
+				<p class="author-p-vids">{{from}}</p>
+				<p class="date-p-vids">{{date}}</p>
+			</div>
+		</div>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="{% static 'js/pagination2.js' %}"></script>
+    <script src="{% static 'js/video_thmb.js' %}"></script>
+    <script src="{% static 'js/videos.js' %}"></script>
+
+{% endblock %}
+
